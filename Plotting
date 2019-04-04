@@ -1,7 +1,7 @@
-#Updating R
+# Updating R
 install.packages("installr")
 library(installr)
 updateR()
 
-#Actual useful stuff
+# Actual useful stuff
 install.packages("readxl")
