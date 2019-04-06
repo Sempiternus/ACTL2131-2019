@@ -3,5 +3,13 @@ install.packages("installr")
 library(installr)
 updateR()
 
-# Actual useful stuff
-install.packages("readxl")
+#Transferring Data
+data <- read.csv(file="5163984.csv", header=TRUE, sep=",")
+
+#information gathering
+boxplot.stats(data$loss_x)
+
+#Possible QQ Plot?
+qqnorm(data$loss_x, pch = 1, frame = TRUE)
+qqline(data$loss_x, col = "red", lwd = 1)
+
