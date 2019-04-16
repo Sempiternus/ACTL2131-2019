@@ -13,3 +13,5 @@ boxplot.stats(data$loss_x)
 qqnorm(data$loss_x, pch = 1, frame = TRUE)
 qqline(data$loss_x, col = "red", lwd = 1)
 
+#Stuff?
+install.packages("Emcdf")
