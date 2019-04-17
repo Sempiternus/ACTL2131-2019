@@ -28,12 +28,22 @@ ad.test(data$x)
 ad.test(data$y)
 #P value < 2.2e-16 so we can reject the null hypothesis (that data is normally distributed)
 
-#Removing outliers
-data[which(data$x %in% outliers),]
-data <- data[-which(data$x %in% outliers),]
+library("MASS")
+#fitting gamma distribution
+fit.gamma <- fitdist(data$x, distr = "gamma", method = "mle")
+#fitting pareto distribution
+library("actuar")
+fit.pareto <- fitdist(data$y, distr = "pareto", method = "mle")
+summary(fit.pareto)
+plot(fit.pareto)
+
 ---------------------------------------------------------------------
 #Useless stuff
 install.packages("Emcdf")
+
+#Removing outliers
+data[which(data$x %in% outliers),]
+data <- data[-which(data$x %in% outliers),]
 
 #information gathering
 boxplot.stats(data$loss_x)
