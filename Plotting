@@ -17,8 +17,8 @@ descdist(data$x, discrete=FALSE)
 #summary statistics
 #s------
 #smin:  1   max:  8825 
-#smedian:  43 
-#smean:  99.8013 
+#median:  43 
+#mean:  99.8013 
 #estimated sd:  251.2799 
 #estimated skewness:  14.47178 
 #estimated kurtosis:  336.7666 
