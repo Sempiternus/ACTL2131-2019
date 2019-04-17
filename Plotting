@@ -7,9 +7,6 @@ updateR()
 data <- read.csv(file="5163984.csv", header=TRUE, sep=",")
 names(data) <- c("x", "y")
 
-#information gathering
-boxplot.stats(data$loss_x)
-
 #determining distribution of individual variables
 install.packages("fitdistrplus")
 library("fitdistrplus")
@@ -25,12 +22,18 @@ descdist(data$x, discrete=FALSE)
 snormal_dist <- fitdist(data$x, "norm")
 plot(normal_dist)
 
-#Possible QQ Plot?
-qqnorm(data$loss_x, pch = 1, frame = TRUE)
-qqline(data$loss_x, col = "red", lwd = 1)
+#Testing for normality 
+install.packages('nortest')
+ad.test(data$x)
+ad.test(data$y)
+#P value < 2.2e-16 so we can reject the null hypothesis (that data is normally distributed)
 
-#Stuff?
+---------------------------------------------------------------------
+#Useless stuff
 install.packages("Emcdf")
+
+#information gathering
+boxplot.stats(data$loss_x)
 
 # Gamma negative loglikelihood
 negll_gamma <- function(parm, x) {
