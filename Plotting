@@ -10,6 +10,21 @@ names(data) <- c("x", "y")
 #information gathering
 boxplot.stats(data$loss_x)
 
+#determining distribution of individual variables
+install.packages("fitdistrplus")
+library("fitdistrplus")
+descdist(data$x, discrete=FALSE)
+#summary statistics
+#s------
+#smin:  1   max:  8825 
+#smedian:  43 
+#smean:  99.8013 
+#estimated sd:  251.2799 
+#estimated skewness:  14.47178 
+#estimated kurtosis:  336.7666 
+snormal_dist <- fitdist(data$x, "norm")
+plot(normal_dist)
+
 #Possible QQ Plot?
 qqnorm(data$loss_x, pch = 1, frame = TRUE)
 qqline(data$loss_x, col = "red", lwd = 1)
