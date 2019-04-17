@@ -28,6 +28,9 @@ ad.test(data$x)
 ad.test(data$y)
 #P value < 2.2e-16 so we can reject the null hypothesis (that data is normally distributed)
 
+#Removing outliers
+data[which(data$x %in% outliers),]
+data <- data[-which(data$x %in% outliers),]
 ---------------------------------------------------------------------
 #Useless stuff
 install.packages("Emcdf")
