@@ -5,6 +5,7 @@ updateR()
 
 #Transferring Data
 data <- read.csv(file="5163984.csv", header=TRUE, sep=",")
+names(data) <- c("x", "y")
 
 #information gathering
 boxplot.stats(data$loss_x)
@@ -15,3 +16,24 @@ qqline(data$loss_x, col = "red", lwd = 1)
 
 #Stuff?
 install.packages("Emcdf")
+
+# Gamma negative loglikelihood
+negll_gamma <- function(parm, x) {
+# parm[1] is k
+# parm[2] is theta
+tmp1 <- x/parm[2] + log(gamma(parm[1])) + parm[1]*log(parm[2])
+tmp2 <- (parm[1]-1)*log(x)
+result <- -sum(tmp2-tmp1)
+return(result)
+}
+# initial values using method of moments
+theta0 <- var(data)/mean(data)
+k0 <- mean(data)/theta0
+#MLE
+fit_gamma <- constrOptim(
+c(k0,theta0),
+negll_gamma,
+NULL,
+ui=rbind(c(1,0),c(0,1)),
+ci=c(0,0),
+x=x)
