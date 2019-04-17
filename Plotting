@@ -28,6 +28,7 @@ ad.test(data$x)
 ad.test(data$y)
 #P value < 2.2e-16 so we can reject the null hypothesis (that data is normally distributed)
 
+#Distribution 2
 library("MASS")
 #fitting gamma distribution
 fit.gamma <- fitdist(data$x, distr = "gamma", method = "mle")
@@ -36,6 +37,13 @@ library("actuar")
 fit.pareto <- fitdist(data$y, distr = "pareto", method = "mle")
 summary(fit.pareto)
 plot(fit.pareto)
+
+#Distribution 4
+fln <- fitdist(data$x, "lnorm")
+fln2 <- fitdist(data$y, "lnorm")
+qqcomp(fln)
+ppcomp(fln)
+#etc.
 
 ---------------------------------------------------------------------
 #Useless stuff
