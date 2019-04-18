@@ -4,3 +4,5 @@ names(data) <- c("x", "y")
 
 #Distribution 2
 library(fitdistrplus)
+fit.gamma <- fitdist(data$x, distr = "gamma", method = "mle")
+fit.gamma
