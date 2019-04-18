@@ -1,3 +1,6 @@
 data <- read.csv(file="5163984.csv", header=TRUE, sep=",")
 names(data) <- c("x", "y")
-library("MASS")
+
+
+#Distribution 2
+library(fitdistrplus)
