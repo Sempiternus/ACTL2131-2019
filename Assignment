@@ -7,12 +7,13 @@ library(ggplot2)
 #For access to Pareto
 library(actuar)
 
------------------------------------------------------------------------------------------------------------------
+============================================================================================================================
 #Distribution 2
 
 fit.gamma <- fitdist(data$x, distr = "gamma", method = "mle")
 fit.gamma
 plot(fit.gamma)
+------------------------------------------------------------------------
 #For a more effective QQ-Plot we can do the following
 #Extract and sort our observed data
 x <- data$x
@@ -25,12 +26,18 @@ gamma.x2 <- sort(gamma.x)
 PD <- data.frame(Sample = x, Theoretical = gamma.x2)
 #Graph data using ggplot2
 ggplot(data = PD, aes(x = Theoretical, y = Sample)) +
-+     geom_point(size = 1) + 
-+     geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-+     ggtitle('Quantile-Quantile Plot') + 
-+     labs(subtitle = '(Comparison of observed values against Gamma Distribution)') + 
-+     xlab('Theoretical Quantiles') + 
-+     ylab('Empirical Quantiles');
+geom_point(size = 1) + 
+geom_abline(intercept = 0, slope = 1, colour = 'red') + 
+ggtitle('Quantile-Quantile Plot') + 
+labs(subtitle = '(Comparison of observed values against Gamma Distribution)') + 
+xlab('Theoretical Quantiles') + 
+ylab('Empirical Quantiles');
+------------------------------------------------------------------------
+#Producing a more effective ecdf
+PD3 <- melt(PD)
+PD3 <- ddply(PD3, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
+ggplot(PD3, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Gamma CDF') + xlab('Claim Size') + ylab('F(x)')
+----------------------------------------------------------------------------------------------------------------------------------------------
 
 #Repeat process for Pareto; try to fit against y
 fit.pareto <- fitdist(data$y, distr = "pareto", method = "mle")
