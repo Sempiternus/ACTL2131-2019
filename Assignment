@@ -45,7 +45,6 @@ names(PD3) <- c("Distribution", "Claim")
 PD3 <- ddply(PD3, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD3, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Gamma CDF') + xlab('Claim Size') + ylab('F(x)')
 ----------------------------------------------------------------------------------------------------------------------------------------------
-
 #Repeat process for Pareto; try to fit against y
 fit.pareto <- fitdist(data$y, distr = "pareto", method = "mle")
 fit.pareto
@@ -75,3 +74,21 @@ ggplot(PD4, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empiri
 
 ============================================================================================================================
 #Distribution 4
+
+fit.lnx <- fitdist(data$x, distr = "lnorm", method = "mle" )
+fit.lnx
+plot(fit.lnx)
+------------------------------------------------------------------------
+#QQ Plotting
+lnorm.x <- rlnorm(10000, meanlog=3.666128, sdlog=1.409079)
+lnorm.x2 <- sort(lnorm.x)
+PDlnx <- data.frame(Sample = x, Theoretical = lnorm.x2)
+ggplot(data = PDlnx, aes(x = Theoretical, y = Sample)) +
+geom_point(size = 1) + 
+geom_abline(intercept = 0, slope = 1, colour = 'red') + 
+ggtitle('Quantile-Quantile Plot') + 
+labs(subtitle = '(Comparison of observed values against log-normal Distribution)') + 
+xlab('Theoretical Quantiles') + 
+ylab('Empirical Quantiles');
+
+fit.lny <- fitdist(data$y, distr = "lnorm", method = "mle" )
