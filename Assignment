@@ -71,7 +71,20 @@ ggplot(PD4, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empiri
 
 ============================================================================================================================
 #Distribution 3
-
+fit.expx <- fitdist(data$x, distr = "exp", method = "mle")
+fit.expx
+plot(fit.expx)
+#QQ Plotting
+exp.x <- rexp(10000, rate=0.01001991)
+exp.x2 <- sort(exp.x)
+PDexpx <- data.frame(Sample = x, Theoretical = exp.x2)
+ggplot(data = PDexpx, aes(x = Theoretical, y = Sample)) +
+geom_point(size = 1) + 
+geom_abline(intercept = 0, slope = 1, colour = 'red') + 
+ggtitle('Quantile-Quantile Plot') + 
+labs(subtitle = '(Comparison of observed values against log-normal Distribution)') + 
+xlab('Theoretical Quantiles') + 
+ylab('Empirical Quantiles');
 ============================================================================================================================
 #Distribution 4
 
