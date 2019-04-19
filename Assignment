@@ -55,12 +55,17 @@ y = data$y
 y = sort(data$y)
 pareto.y=rpareto(10000, shape=2.033259, scale=202.661918)
 pareto.y2=sort(pareto.y)
-PD2 <- data.frame(Sample = y, Theoretical = pareto.y2)
-ggplot(data = PD2, aes(x = Theoretical, y = Sample)) +
+PDp <- data.frame(Sample = y, Theoretical = pareto.y2)
+ggplot(data = PDp, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
 ggtitle('Quantile-Quantile Plot') + 
 labs(subtitle = '(Comparison of observed values against Pareto distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
-
+------------------------------------------------------------------------
+#Producing a more effective ecdf
+PD4 <- melt(PDp)
+names(PD4) <- c("Distribution", "Claim")
+PD4 <- ddply(PD4, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
+ggplot(PD4, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Pareto CDF') + xlab('Claim Size') + ylab('F(x)')
