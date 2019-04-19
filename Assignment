@@ -90,5 +90,32 @@ ggtitle('Quantile-Quantile Plot') +
 labs(subtitle = '(Comparison of observed values against log-normal Distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
-
+------------------------------------------------------------------------
+#Producing a more effective ecdf
+PD7 <- melt(PDlnx)
+names(PD7) <- c("Distribution", "Claim")
+PD7 <- ddply(PD7, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
+ggplot(PD7, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Log-Normal CDF') + xlab('Claim Size') + ylab('F(x)')
+------------------------------------------------------------------------
+#Repeat with Y
 fit.lny <- fitdist(data$y, distr = "lnorm", method = "mle" )
+fit.lny
+plot(fit.lny)
+------------------------------------------------------------------------
+#QQ Plotting
+lnorm.y <- rlnorm(10000, meanlog=4.308268, sdlog=1.459328)
+lnorm.y2 <- sort(lnorm.y)
+PDlny <- data.frame(Sample = y, Theoretical = lnorm.y2)
+ggplot(data = PDlny, aes(x = Theoretical, y = Sample)) +
+geom_point(size = 1) + 
+geom_abline(intercept = 0, slope = 1, colour = 'red') + 
+ggtitle('Quantile-Quantile Plot') + 
+labs(subtitle = '(Comparison of observed values against log-normal Distribution)') + 
+xlab('Theoretical Quantiles') + 
+ylab('Empirical Quantiles');
+------------------------------------------------------------------------
+#ECDF
+PD8 <- melt(PDlny)
+names(PD8) <- c("Distribution", "Claim")
+PD8 <- ddply(PD8, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
+ggplot(PD8, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Log-Normal CDF') + xlab('Claim Size') 
