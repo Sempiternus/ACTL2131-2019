@@ -7,6 +7,7 @@ library(ggplot2)
 #For access to Pareto
 library(actuar)
 
+-----------------------------------------------------------------------------------------------------------------
 #Distribution 2
 
 fit.gamma <- fitdist(data$x, distr = "gamma", method = "mle")
@@ -30,3 +31,22 @@ ggplot(data = PD, aes(x = Theoretical, y = Sample)) +
 +     labs(subtitle = '(Comparison of observed values against Gamma Distribution)') + 
 +     xlab('Theoretical Quantiles') + 
 +     ylab('Empirical Quantiles');
+
+#Repeat process for Pareto; try to fit against y
+fit.pareto <- fitdist(data$y, distr = "pareto", method = "mle")
+fit.pareto
+plot(fit.pareto)
+#Producing a better graph
+y = data$y
+y = sort(data$y)
+pareto.y=rpareto(10000, shape=2.033259, scale=202.661918)
+pareto.y2=sort(pareto.y)
+PD2 <- data.frame(Sample = y, Theoretical = pareto.y2)
+ggplot(data = PD2, aes(x = Theoretical, y = Sample)) +
++     geom_point(size = 1) + 
++     geom_abline(intercept = 0, slope = 1, colour = 'red') + 
++     ggtitle('Quantile-Quantile Plot') + 
++     labs(subtitle = '(Comparison of observed values against Pareto distribution)') + 
++     xlab('Theoretical Quantiles') + 
++     ylab('Empirical Quantiles');
+
