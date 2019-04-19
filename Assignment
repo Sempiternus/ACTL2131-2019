@@ -1,8 +1,32 @@
 data <- read.csv(file="5163984.csv", header=TRUE, sep=",")
 names(data) <- c("x", "y")
-
+#For MLE and modelling
+library(fitdistrplus)
+#For graphing
+library(ggplot2)
+#For access to Pareto
+library(actuar)
 
 #Distribution 2
-library(fitdistrplus)
+
 fit.gamma <- fitdist(data$x, distr = "gamma", method = "mle")
 fit.gamma
+plot(fit.gamma)
+#For a more effective QQ-Plot we can do the following
+#Extract and sort our observed data
+x <- data$x
+x <- sort(x)
+#Produce a theoretical gamma distribution utilising our calculated MLE parameters
+gamma.x <- rgamma(10000, shape=0.651343421, rate=0.006526678)
+#Sort it
+gamma.x2 <- sort(gamma.x)
+#Produce a new dataframe using this information
+PD <- data.frame(Sample = x, Theoretical = gamma.x2)
+#Graph data using ggplot2
+ggplot(data = PD, aes(x = Theoretical, y = Sample)) +
++     geom_point(size = 1) + 
++     geom_abline(intercept = 0, slope = 1, colour = 'red') + 
++     ggtitle('Quantile-Quantile Plot') + 
++     labs(subtitle = '(Comparison of observed values against Gamma Distribution)') + 
++     xlab('Theoretical Quantiles') + 
++     ylab('Empirical Quantiles');
