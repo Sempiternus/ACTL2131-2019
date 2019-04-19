@@ -12,6 +12,8 @@ library(reshape2)
 library(plyr)
 #For mvnorm.skew.test
 install.packages("ICS")
+#For F.O.G
+library("goftest")
 ============================================================================================================================
 #Distribution 1
 mvnorm.skew.test(data)
@@ -68,6 +70,14 @@ PD2 <- melt(PDny)
 names(PD2) <- c("Distribution", "Claim")
 PD1 <- ddply(PD2, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD2, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Normal CDF') + xlab('Claim Size') + ylab('F(x)')
+----------------------------------------------------------------------------------------------------------------------------------------------
+#G.O.F tests
+#We can use both Anderson-Darling and Kolmogorov Smirnoff
+ks.test(x, norm.x)
+ks.test(y, norm.y)
+ad.test(data$x, "pnorm", mean=99.8013, sd=251.2673)
+ad.test(data$y, "pnorm", 206.3851, sd=908.4844)
+#Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
 
 ============================================================================================================================
 #Distribution 2
@@ -124,6 +134,14 @@ PD4 <- melt(PDp)
 names(PD4) <- c("Distribution", "Claim")
 PD4 <- ddply(PD4, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD4, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Pareto CDF') + xlab('Claim Size') + ylab('F(x)')
+------------------------------------------------------------------------
+#G.O.F tests
+#We can use both Anderson-Darling and Kolmogorov Smirnoff
+ks.test(x, gamma.x)
+ks.test(y, pareto.y)
+ad.test(data$x, "pgamma", shape=0.651343421, rate=0.006526678)
+ad.test(data$y, "ppareto", shape=2.033259, scale=202.661918)
+#Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
 
 ============================================================================================================================
 #Distribution 3
@@ -171,7 +189,16 @@ PD6 <- melt(PDexpy)
 names(PD6) <- c("Distribution", "Claim")
 PD6 <- ddply(PD5, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD6, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Exponential CDF') + xlab('Claim Size') + ylab('F(x)')
+------------------------------------------------------------------------
+#G.O.F tests
+#We can use both Anderson-Darling and Kolmogorov Smirnoff
+ks.test(x, exp.x)
+ks.test(y, exp.y)
+ad.test(data$x, "pexp", rate=0.01001991)
+ad.test(data$y, "pexp", rate=0.004845311)
+#Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
 ============================================================================================================================
+
 #Distribution 4
 
 fit.lnx <- fitdist(data$x, distr = "lnorm", method = "mle" )
@@ -218,3 +245,11 @@ PD8 <- melt(PDlny)
 names(PD8) <- c("Distribution", "Claim")
 PD8 <- ddply(PD8, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD8, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Log-Normal CDF') + xlab('Claim Size') 
+------------------------------------------------------------------------
+#G.O.F tests
+#We can use both Anderson-Darling and Kolmogorov Smirnoff
+ks.test(x, lnorm.x)
+ks.test(y, lnorm.y)
+ad.test(data$x, "plnorm", meanlog=3.666128, sdlog=1.409079)
+ad.test(data$y, "plnorm", meanlog=4.308268, sdlog=1.459328)
+#Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
