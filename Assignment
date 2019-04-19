@@ -6,6 +6,7 @@ library(fitdistrplus)
 library(ggplot2)
 #For access to Pareto
 library(actuar)
+#For merging
 library(reshape2)
 ============================================================================================================================
 #Distribution 1
