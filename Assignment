@@ -8,6 +8,8 @@ library(ggplot2)
 library(actuar)
 #For merging
 library(reshape2)
+#For ddply function
+library(plyr)
 ============================================================================================================================
 #Distribution 1
 
