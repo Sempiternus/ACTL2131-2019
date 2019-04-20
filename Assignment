@@ -89,9 +89,6 @@ fit.gamma
 plot(fit.gamma)
 ------------------------------------------------------------------------
 #For a more effective QQ-Plot we can do the following
-#Extract and sort our observed data
-x <- data$x
-x <- sort(x)
 #Produce a theoretical gamma distribution utilising our calculated MLE parameters
 gamma.x <- rgamma(10000, shape=0.651343421, rate=0.006526678)
 #Sort it
@@ -118,8 +115,6 @@ fit.pareto <- fitdist(data$y, distr = "pareto", method = "mle")
 fit.pareto
 plot(fit.pareto)
 #Producing a better graph
-y = data$y
-y = sort(data$y)
 pareto.y=rpareto(10000, shape=2.033259, scale=202.661918)
 pareto.y2=sort(pareto.y)
 PDp <- data.frame(Sample = y, Theoretical = pareto.y2)
