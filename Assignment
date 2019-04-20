@@ -11,7 +11,7 @@ library(reshape2)
 #For ddply function
 library(plyr)
 #For mvnorm.skew.test
-install.packages("ICS")
+library("ICS")
 #For F.O.G
 library("goftest")
 ============================================================================================================================
@@ -52,6 +52,8 @@ fit.normy
 plot(fit.normy)
 -----------------------------------------------------------------------
 #QQ Plot
+y = data$y
+y = sort(data$y)
 norm.y <- rnorm(10000, mean=206.3851, sd=908.4844)
 norm.y2 <- sort(norm.y)
 #Produce a new dataframe using this information
