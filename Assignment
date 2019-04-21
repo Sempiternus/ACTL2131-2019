@@ -44,7 +44,12 @@ ylab('Empirical Quantiles');
 PD1 <- melt(PDnx)
 names(PD1) <- c("Distribution", "Claim")
 PD1 <- ddply(PD1, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
-ggplot(PD1, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Normal CDF') + xlab('Claim Size') + ylab('F(x)')
+ggplot(PD1, aes(x=Claim)) +
+stat_ecdf(aes(colour=Distribution)) +
+ggtitle('Empirical vs Theoretical Normal CDF') +
+xlab('Claim Size') +
+ylab('F(x)') +
+xlim(NA, 4000)
 ***********************************************************************
 Repeat for Y
 fit.normy <- fitdist(data$y, distr = "norm", method = "mle" )
@@ -71,7 +76,12 @@ ylab('Empirical Quantiles');
 PD2 <- melt(PDny)
 names(PD2) <- c("Distribution", "Claim")
 PD1 <- ddply(PD2, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
-ggplot(PD2, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Normal CDF') + xlab('Claim Size') + ylab('F(x)')
+ggplot(PD2, aes(x=Claim)) +
+stat_ecdf(aes(colour=Distribution)) +
+ggtitle('Empirical vs Theoretical Normal CDF') +
+xlab('Claim Size') +
+ylab('F(x)') +
+xlim(NA, 15000)
 ----------------------------------------------------------------------------------------------------------------------------------------------
 #G.O.F tests
 #We can use both Anderson-Darling and Kolmogorov Smirnoff
@@ -108,7 +118,12 @@ ylab('Empirical Quantiles');
 PD3 <- melt(PDg)
 names(PD3) <- c("Distribution", "Claim")
 PD3 <- ddply(PD3, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
-ggplot(PD3, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Gamma CDF') + xlab('Claim Size') + ylab('F(x)')
+ggplot(PD3, aes(x=Claim)) +
+stat_ecdf(aes(colour=Distribution)) +
+ggtitle('Empirical vs Theoretical Gamma CDF') +
+xlab('Claim Size') +
+ylab('F(x)') +
+xlim(NA, 6000)
 ***********************************************************************
 #Repeat process for Pareto; try to fit against y
 fit.pareto <- fitdist(data$y, distr = "pareto", method = "mle")
@@ -130,7 +145,12 @@ ylab('Empirical Quantiles');
 PD4 <- melt(PDp)
 names(PD4) <- c("Distribution", "Claim")
 PD4 <- ddply(PD4, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
-ggplot(PD4, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Pareto CDF') + xlab('Claim Size') + ylab('F(x)')
+ggplot(PD4, aes(x=Claim)) +
+stat_ecdf(aes(colour=Distribution)) +
+ggtitle('Empirical vs Theoretical Pareto CDF') +
+xlab('Claim Size') +
+ylab('F(x)') +
+xlim(NA, 20000)
 ------------------------------------------------------------------------
 #G.O.F tests
 #We can use both Anderson-Darling and Kolmogorov Smirnoff
@@ -162,7 +182,12 @@ ylab('Empirical Quantiles');
 PD5 <- melt(PDexpx)
 names(PD5) <- c("Distribution", "Claim")
 PD5 <- ddply(PD5, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
-ggplot(PD5, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Exponential CDF') + xlab('Claim Size') + ylab('F(x)')
+ggplot(PD5, aes(x=Claim)) +
+stat_ecdf(aes(colour=Distribution)) +
+ggtitle('Empirical vs Theoretical Exponential CDF') +
+xlab('Claim Size') +
+ylab('F(x)') +
+xlim(NA,6000)
 ***********************************************************************
 #Repeat with Y
 fit.expy <- fitdist(data$y, distr = "exp", method = "mle")
@@ -185,7 +210,12 @@ ylab('Empirical Quantiles');
 PD6 <- melt(PDexpy)
 names(PD6) <- c("Distribution", "Claim")
 PD6 <- ddply(PD5, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
-ggplot(PD6, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Exponential CDF') + xlab('Claim Size') + ylab('F(x)')
+ggplot(PD6, aes(x=Claim)) +
+stat_ecdf(aes(colour=Distribution)) +
+ggtitle('Empirical vs Theoretical Exponential CDF') +
+xlab('Claim Size') +
+ylab('F(x)') +
+xlim(NA, 6000)
 ------------------------------------------------------------------------
 #G.O.F tests
 #We can use both Anderson-Darling and Kolmogorov Smirnoff
@@ -218,7 +248,12 @@ ylab('Empirical Quantiles');
 PD7 <- melt(PDlnx)
 names(PD7) <- c("Distribution", "Claim")
 PD7 <- ddply(PD7, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
-ggplot(PD7, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Log-Normal CDF') + xlab('Claim Size') + ylab('F(x)')
+ggplot(PD7, aes(x=Claim)) +
+stat_ecdf(aes(colour=Distribution)) +
+ggtitle('Empirical vs Theoretical Log-Normal CDF') +
+xlab('Claim Size') +
+ylab('F(x)') +
+xlim(NA, 7500)
 ***********************************************************************
 #Repeat with Y
 fit.lny <- fitdist(data$y, distr = "lnorm", method = "mle" )
@@ -241,7 +276,11 @@ ylab('Empirical Quantiles');
 PD8 <- melt(PDlny)
 names(PD8) <- c("Distribution", "Claim")
 PD8 <- ddply(PD8, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
-ggplot(PD8, aes(x=Claim)) + stat_ecdf(aes(colour=Distribution))+ ggtitle('Empirical vs Theoretical Log-Normal CDF') + xlab('Claim Size') 
+ggplot(PD8, aes(x=Claim)) +
+stat_ecdf(aes(colour=Distribution)) +
+ggtitle('Empirical vs Theoretical Log-Normal CDF') +
+xlab('Claim Size') +
+xlim(NA, 20000)
 ------------------------------------------------------------------------
 #G.O.F tests
 #We can use both Anderson-Darling and Kolmogorov Smirnoff
