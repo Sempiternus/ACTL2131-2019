@@ -37,7 +37,7 @@ PDnx <- data.frame(Sample = x, Theoretical = norm.x2)
 ggplot(data = PDnx, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-ggtitle('Quantile-Quantile Plot') + 
+ggtitle('Quantile-Quantile Plot for X') + 
 labs(subtitle = '(Comparison of observed values against normal Distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
@@ -51,12 +51,12 @@ PD1 <- ddply(PD1, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 #Graphing
 ggplot(PD1, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
-ggtitle('Empirical vs Theoretical Normal CDF') +
+ggtitle('Empirical vs Theoretical Normal CDF for variable X') +
 xlab('Claim Size') +
 ylab('F(x)') +
 xlim(NA, 4000)
 ***********************************************************************
-Repeat for Y
+#Repeat for Y
 fit.normy <- fitdist(data$y, distr = "norm", method = "mle" )
 fit.normy
 plot(fit.normy)
@@ -72,7 +72,7 @@ PDny <- data.frame(Sample = y, Theoretical = norm.y2)
 ggplot(data = PDny, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-ggtitle('Quantile-Quantile Plot') + 
+ggtitle('Quantile-Quantile Plot for Y') + 
 labs(subtitle = '(Comparison of observed values against normal Distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
@@ -83,20 +83,20 @@ names(PD2) <- c("Distribution", "Claim")
 PD1 <- ddply(PD2, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD2, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
-ggtitle('Empirical vs Theoretical Normal CDF') +
+ggtitle('Empirical vs Theoretical Normal CDF for variable Y') +
 xlab('Claim Size') +
 ylab('F(x)') +
 xlim(NA, 15000)
 ----------------------------------------------------------------------------------------------------------------------------------------------
 #G.O.F tests
-#We can use both Anderson-Darling and Kolmogorov Smirnoff
+#We use AD, KS and CVM to confirm results
 ks.test(x, norm.x)
 ks.test(y, norm.y)
 ad.test(data$x, "pnorm", mean=99.8013, sd=251.2673)
 ad.test(data$y, "pnorm", mean=206.3851, sd=908.4844)
 cvm.test(data$x, "pnorm", mean=99.8013, sd=251.2673)
 cvm.test(data$y, "pnorm", mean=206.3851, sd=908.4844)
-#Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
+#Note that we are interpreting D, Omega and AN statistics rather than P value. The smaller these values, the better.
 
 ============================================================================================================================
 #Distribution 2
@@ -116,18 +116,21 @@ PDg <- data.frame(Sample = x, Theoretical = gamma.x2)
 ggplot(data = PDg, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-ggtitle('Quantile-Quantile Plot') + 
+ggtitle('Quantile-Quantile Plot for X') + 
 labs(subtitle = '(Comparison of observed values against Gamma Distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
 ------------------------------------------------------------------------
 #Producing a more effective ecdf
+#Melt data together and rename
 PD3 <- melt(PDg)
 names(PD3) <- c("Distribution", "Claim")
+#Find ECDF values
 PD3 <- ddply(PD3, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
+#Plot
 ggplot(PD3, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
-ggtitle('Empirical vs Theoretical Gamma CDF') +
+ggtitle('Empirical vs Theoretical Gamma CDF for variable X') +
 xlab('Claim Size') +
 ylab('F(x)') +
 xlim(NA, 6000)
@@ -143,7 +146,7 @@ PDp <- data.frame(Sample = y, Theoretical = pareto.y2)
 ggplot(data = PDp, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-ggtitle('Quantile-Quantile Plot') + 
+ggtitle('Quantile-Quantile Plot for Y') + 
 labs(subtitle = '(Comparison of observed values against Pareto distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
@@ -154,7 +157,7 @@ names(PD4) <- c("Distribution", "Claim")
 PD4 <- ddply(PD4, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD4, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
-ggtitle('Empirical vs Theoretical Pareto CDF') +
+ggtitle('Empirical vs Theoretical Pareto CDF for variable Y') +
 xlab('Claim Size') +
 ylab('F(x)') +
 xlim(NA, 20000)
@@ -167,7 +170,7 @@ ad.test(data$x, "pgamma", shape=0.651343421, rate=0.006526678)
 ad.test(data$y, "ppareto", shape=2.033259, scale=202.661918)
 cvm.test(data$x, "pgamma", shape=0.651343421, rate=0.006526678)
 cvm.test(data$y, "ppareto", shape=2.033259, scale=202.661918)
-#Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
+#Note that we are interpreting D, Omega and AN statistics rather than P value. The smaller these values, the better.
 
 ============================================================================================================================
 #Distribution 3
@@ -182,7 +185,7 @@ PDexpx <- data.frame(Sample = x, Theoretical = exp.x2)
 ggplot(data = PDexpx, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-ggtitle('Quantile-Quantile Plot') + 
+ggtitle('Quantile-Quantile Plot for X') + 
 labs(subtitle = '(Comparison of observed values against Exponential Distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
@@ -193,7 +196,7 @@ names(PD5) <- c("Distribution", "Claim")
 PD5 <- ddply(PD5, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD5, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
-ggtitle('Empirical vs Theoretical Exponential CDF') +
+ggtitle('Empirical vs Theoretical Exponential CDF for X') +
 xlab('Claim Size') +
 ylab('F(x)') +
 xlim(NA,6000)
@@ -210,7 +213,7 @@ PDexpy <- data.frame(Sample = y, Theoretical = exp.y2)
 ggplot(data = PDexpy, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-ggtitle('Quantile-Quantile Plot') + 
+ggtitle('Quantile-Quantile Plot for Y') + 
 labs(subtitle = '(Comparison of observed values Exponential Distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
@@ -221,7 +224,7 @@ names(PD6) <- c("Distribution", "Claim")
 PD6 <- ddply(PD5, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD6, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
-ggtitle('Empirical vs Theoretical Exponential CDF') +
+ggtitle('Empirical vs Theoretical Exponential CDF for Y') +
 xlab('Claim Size') +
 ylab('F(x)') +
 xlim(NA, 6000)
@@ -234,7 +237,7 @@ ad.test(data$x, "pexp", rate=0.01001991)
 ad.test(data$y, "pexp", rate=0.004845311)
 cvm.test(data$x, "pexp", rate=0.01001991)
 cvm.test(data$y, "pexp", rate=0.004845311)
-#Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
+#Note that we are interpreting D, Omega and AN statistics rather than P value. The smaller these values, the better.
 ============================================================================================================================
 
 #Distribution 4
@@ -250,7 +253,7 @@ PDlnx <- data.frame(Sample = x, Theoretical = lnorm.x2)
 ggplot(data = PDlnx, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-ggtitle('Quantile-Quantile Plot') + 
+ggtitle('Quantile-Quantile Plot for X') + 
 labs(subtitle = '(Comparison of observed values against log-normal Distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
@@ -261,7 +264,7 @@ names(PD7) <- c("Distribution", "Claim")
 PD7 <- ddply(PD7, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD7, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
-ggtitle('Empirical vs Theoretical Log-Normal CDF') +
+ggtitle('Empirical vs Theoretical Log-Normal CDF for X') +
 xlab('Claim Size') +
 ylab('F(x)') +
 xlim(NA, 7500)
@@ -278,7 +281,7 @@ PDlny <- data.frame(Sample = y, Theoretical = lnorm.y2)
 ggplot(data = PDlny, aes(x = Theoretical, y = Sample)) +
 geom_point(size = 1) + 
 geom_abline(intercept = 0, slope = 1, colour = 'red') + 
-ggtitle('Quantile-Quantile Plot') + 
+ggtitle('Quantile-Quantile Plot for Y') + 
 labs(subtitle = '(Comparison of observed values against log-normal Distribution)') + 
 xlab('Theoretical Quantiles') + 
 ylab('Empirical Quantiles');
@@ -289,7 +292,7 @@ names(PD8) <- c("Distribution", "Claim")
 PD8 <- ddply(PD8, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
 ggplot(PD8, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
-ggtitle('Empirical vs Theoretical Log-Normal CDF') +
+ggtitle('Empirical vs Theoretical Log-Normal CDF for Y') +
 xlab('Claim Size') +
 xlim(NA, 20000)
 ------------------------------------------------------------------------
@@ -301,4 +304,4 @@ ad.test(data$x, "plnorm", meanlog=3.666128, sdlog=1.409079)
 ad.test(data$y, "plnorm", meanlog=4.308268, sdlog=1.459328)
 cvm.test(data$x, "plnorm", meanlog=3.666128, sdlog=1.409079)
 cvm.test(data$y, "plnorm", meanlog=4.308268, sdlog=1.459328)
-#Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
+#Note that we are interpreting D, Omega and AN statistics rather than P value. The smaller these values, the better.
