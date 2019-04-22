@@ -1,3 +1,4 @@
+#Reading and renaming data columns
 data <- read.csv(file="5163984.csv", header=TRUE, sep=",")
 names(data) <- c("x", "y")
 #For MLE and modelling
@@ -10,18 +11,19 @@ library(actuar)
 library(reshape2)
 #For ddply function
 library(plyr)
-#For mvnorm.skew.test
-library("ICS")
 #For F.O.G
 library("goftest")
 ============================================================================================================================
+#Rough visual estimate of distribution
+descdist(data$x, discrete = FALSE)
+descdist(data$y, discrete = FALSE)
+============================================================================================================================
 #Distribution 1
-mvnorm.skew.test(data)
 fit.normx <- fitdist(data$x, distr = "norm", method = "mle" )
 fit.normx
 plot(fit.normx)
 ------------------------------------------------------------------------
-#For a more effective QQ-Plot we can do the following
+#For a more effective QQ-Plot we can do the following;
 #Extract and sort our observed data
 x <- data$x
 x <- sort(x)
@@ -41,9 +43,12 @@ xlab('Theoretical Quantiles') +
 ylab('Empirical Quantiles');
 ------------------------------------------------------------------------
 #Producing a more effective ecdf
+#Melt our actual and theoretical data into the same column and rename
 PD1 <- melt(PDnx)
 names(PD1) <- c("Distribution", "Claim")
+#Finding ECDF
 PD1 <- ddply(PD1, .(Distribution), transform, ecd=ecdf(Claim)(Claim))
+#Graphing
 ggplot(PD1, aes(x=Claim)) +
 stat_ecdf(aes(colour=Distribution)) +
 ggtitle('Empirical vs Theoretical Normal CDF') +
