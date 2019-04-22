@@ -39,10 +39,10 @@ summary(fit.pareto)
 plot(fit.pareto)
 
 #Distribution 4
-fln <- fitdist(data$x, "lnorm")
-fln2 <- fitdist(data$y, "lnorm")
-qqcomp(fln)
-ppcomp(fln)
+boop <- fitdist(data$x, "lnorm")
+boop2 <- fitdist(data$y, "lnorm")
+qqcomp(boop)
+ppcomp(boop2)
 #etc.
 
 ---------------------------------------------------------------------
