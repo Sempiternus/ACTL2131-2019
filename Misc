@@ -1,3 +1,4 @@
+#Random thoughts and stuff
 # Updating R
 install.packages("installr")
 library(installr)
