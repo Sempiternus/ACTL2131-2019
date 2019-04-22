@@ -88,7 +88,9 @@ xlim(NA, 15000)
 ks.test(x, norm.x)
 ks.test(y, norm.y)
 ad.test(data$x, "pnorm", mean=99.8013, sd=251.2673)
-ad.test(data$y, "pnorm", 206.3851, sd=908.4844)
+ad.test(data$y, "pnorm", mean=206.3851, sd=908.4844)
+cvm.test(data$x, "pnorm", mean=99.8013, sd=251.2673)
+cvm.test(data$y, "pnorm", mean=206.3851, sd=908.4844)
 #Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
 
 ============================================================================================================================
@@ -158,6 +160,8 @@ ks.test(x, gamma.x)
 ks.test(y, pareto.y)
 ad.test(data$x, "pgamma", shape=0.651343421, rate=0.006526678)
 ad.test(data$y, "ppareto", shape=2.033259, scale=202.661918)
+cvm.test(data$x, "pgamma", shape=0.651343421, rate=0.006526678)
+cvm.test(data$y, "ppareto", shape=2.033259, scale=202.661918)
 #Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
 
 ============================================================================================================================
@@ -223,6 +227,8 @@ ks.test(x, exp.x)
 ks.test(y, exp.y)
 ad.test(data$x, "pexp", rate=0.01001991)
 ad.test(data$y, "pexp", rate=0.004845311)
+cvm.test(data$x, "pexp", rate=0.01001991)
+cvm.test(data$y, "pexp", rate=0.004845311)
 #Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
 ============================================================================================================================
 
@@ -288,4 +294,6 @@ ks.test(x, lnorm.x)
 ks.test(y, lnorm.y)
 ad.test(data$x, "plnorm", meanlog=3.666128, sdlog=1.409079)
 ad.test(data$y, "plnorm", meanlog=4.308268, sdlog=1.459328)
+cvm.test(data$x, "plnorm", meanlog=3.666128, sdlog=1.409079)
+cvm.test(data$y, "plnorm", meanlog=4.308268, sdlog=1.459328)
 #Note that we are interpreting D and AN statistics rather than P value. The smaller these values, the better.
